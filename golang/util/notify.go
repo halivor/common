@@ -7,22 +7,32 @@ import (
 )
 
 var (
-	TopUpWeChatUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?" +
-		"key=504171d0-f32f-440b-8554-c3e0dd4c255c"
+	TopUpWeChatUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?"
 )
 
-func InitWeChatTopUpUrl(url string) {
+func InitNotifyWeChatUrl(url string) {
 	TopUpWeChatUrl = url
 }
 
-func NotifyTopUpWeChat(data string) {
+func NotifyWeChatMarkDown(markdown string) {
 	p := struct {
 		Type     string            `json:"msgtype"`
 		Markdown map[string]string `json:"markdown"`
 	}{"markdown", map[string]string{
-		"content": data,
+		"content": markdown,
 	}}
 	pb, _ := json.Marshal(p)
 	ul.Trace("notify wechat", string(pb))
+	http.Post(TopUpWeChatUrl, "application/json", bytes.NewReader(pb))
+}
+
+func NotifyWeChatText(text string) {
+	p := struct {
+		Type string                 `json:"msgtype"`
+		Text map[string]interface{} `json:"text"`
+	}{"text", map[string]interface{}{
+		"content": text,
+	}}
+	pb, _ := json.Marshal(p)
 	http.Post(TopUpWeChatUrl, "application/json", bytes.NewReader(pb))
 }

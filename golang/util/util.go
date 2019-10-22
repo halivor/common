@@ -12,7 +12,7 @@ import (
 	log "github.com/halivor/goutility/logger"
 )
 
-var ul = log.NewLog("util.log", "[util]", log.LstdFlags, log.TRACE)
+var ul = log.NewLog("/data/logs/util.log", "[util]", log.LstdFlags, log.TRACE)
 
 func RespParse(r io.ReadCloser) (json.RawMessage, ce.Errno) {
 	pb, _ := ioutil.ReadAll(r)

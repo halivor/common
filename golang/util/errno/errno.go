@@ -1,5 +1,9 @@
 package errno
 
+import (
+	"fmt"
+)
+
 type Errno int
 
 const (
@@ -26,10 +30,12 @@ const (
 // 应用级错误
 const (
 	// 通用错误
-	BAD_REQ     Errno = 2000
-	strBadReq         = "攻城狮罚站去了" // 请求参数错误
-	NOT_EXIST   Errno = 2001
-	strNotExist       = "攻城狮消失了" // 数据不存在
+	BAD_REQ             Errno = 2000
+	strBadReq                 = "攻城狮罚站去了" // 请求参数错误
+	NOT_EXIST           Errno = 2001
+	strNotExist               = "攻城狮消失了" // 数据不存在
+	UPGRADE_MANDATORY   Errno = 2002
+	strUpgradeMandatory       = "攻城狮升级去了"
 	// TOKEN 相关
 	TOKEN_INVALID   Errno = 2010
 	strTokenInvalid       = "攻城狮考证去了" // Token校验失败
@@ -90,6 +96,7 @@ func init() {
 	errmsg[ERR_ORI] = strErrOri
 	// 应用错误
 	errmsg[BAD_REQ] = strBadReq
+	errmsg[UPGRADE_MANDATORY] = strUpgradeMandatory
 	errmsg[NOT_EXIST] = strNotExist
 	// TOKEN异常
 	errmsg[TOKEN_INVALID] = strTokenInvalid
@@ -123,7 +130,7 @@ func (e Errno) Errno() int {
 }
 
 func (e Errno) String() string {
-	return errmsg[e]
+	return fmt.Sprintf("%d->%s", e.Errno(), errmsg[e])
 }
 
 func (e Errno) Error() string {
