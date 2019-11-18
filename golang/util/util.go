@@ -14,6 +14,13 @@ import (
 
 var ul = log.NewLog("/data/logs/util.log", "[util]", log.LstdFlags, log.TRACE)
 
+func InitLog(olog log.Logger) {
+	if olog != nil {
+		log.Release(ul)
+		ul = olog
+	}
+}
+
 func RespParse(r io.ReadCloser) (json.RawMessage, ce.Errno) {
 	pb, _ := ioutil.ReadAll(r)
 	rsp := &p.RspRaw{}
