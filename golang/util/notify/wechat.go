@@ -4,13 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-
-	log "github.com/halivor/goutility/logger"
 )
 
 var (
 	TopUpWeChatUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?"
-	ul             = log.NewLog("/data/logs/util.log", "[util]", log.LstdFlags, log.TRACE)
 )
 
 func InitNotifyWeChatUrl(url string) {
@@ -25,7 +22,6 @@ func NotifyWeChatMarkDown(markdown string) {
 		"content": markdown,
 	}}
 	pb, _ := json.Marshal(p)
-	ul.Trace("notify wechat", string(pb))
 	http.Post(TopUpWeChatUrl, "application/json", bytes.NewReader(pb))
 }
 

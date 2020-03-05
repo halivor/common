@@ -11,37 +11,7 @@ const (
 	strSucc       = "成功"
 )
 
-// 系统级错误
-const (
-	SYS_ERR        Errno = 1000
-	strSysErr            = "攻城狮学俄语去了" // 系统调用异常
-	SRV_ERR        Errno = 1001
-	strSrvErr            = "攻城狮学英语去了" // 内部服务异常
-	OUT_ERR        Errno = 1002
-	strOutErr            = "攻城狮打猎去了" // 外部服务异常
-	DB_ERR         Errno = 1003
-	strDbErr             = "攻城狮学法语去了" // 内部数据库异常
-	DATA_INVALID   Errno = 1004
-	strDataInvalid       = "攻城狮学德语去了" // 内部数据解析异常
-	ERR_ORI              = 1010
-	strErrOri            = "攻城狮学习去了" // 原始错误信息
-)
-
 // 应用级错误
-const (
-	// 通用错误
-	BAD_REQ             Errno = 2000
-	strBadReq                 = "攻城狮罚站去了" // 请求参数错误
-	NOT_EXIST           Errno = 2001
-	strNotExist               = "攻城狮消失了" // 数据不存在
-	UPGRADE_MANDATORY   Errno = 2002
-	strUpgradeMandatory       = "攻城狮升级去了"
-	// TOKEN 相关
-	TOKEN_INVALID   Errno = 2010
-	strTokenInvalid       = "攻城狮考证去了" // Token校验失败
-	TOKEN_EXPIRE    Errno = 2011
-	strTokenExpire        = "攻城狮被欠薪了" // Token过期
-)
 const (
 	// 个人信息相关
 	NICK_EXIST           Errno = 2020
@@ -73,56 +43,48 @@ const (
 	// 好友相关
 	HAD_BEEN_MATE  Errno = 2400
 	strHadBeenMate       = "该用户已经是您的好友"
+	HAD_APPLIED    Errno = 2401
+	strHadApplied        = "已经发起过好友申请"
 
 	// 其他相关
 	FEED_BACK_IMAGE  Errno = 2300
 	strFeedBackImage       = "获取反馈头像失败"
 )
 
-var errmsg map[Errno]string = map[Errno]string{}
+var errmsg = make(map[Errno]string, 1024)
 
 func Set(no Errno, msg string) {
 	errmsg[no] = msg
 }
 
 func init() {
-	errmsg[SUCC] = strSucc
-	// 服务错误
-	errmsg[SYS_ERR] = strSysErr
-	errmsg[SRV_ERR] = strSrvErr
-	errmsg[DB_ERR] = strDbErr
-	errmsg[OUT_ERR] = strOutErr
-	errmsg[DATA_INVALID] = strDataInvalid
-	errmsg[ERR_ORI] = strErrOri
-	// 应用错误
-	errmsg[BAD_REQ] = strBadReq
-	errmsg[UPGRADE_MANDATORY] = strUpgradeMandatory
-	errmsg[NOT_EXIST] = strNotExist
-	// TOKEN异常
-	errmsg[TOKEN_INVALID] = strTokenInvalid
-	errmsg[TOKEN_EXPIRE] = strTokenExpire
+	Set(SUCC, strSucc)
+	other()
+}
+func other() {
 	// 个人信息异常
-	errmsg[NICK_EXIST] = strNickExist
-	errmsg[NICK_INVALID] = strNickInvalid
-	errmsg[NICK_LENGTH_INVALID] = strNickLengthInvalid
-	errmsg[GENDER_ERROR] = strGenderError
-	errmsg[AVATAR_FAILED] = strAvatarFailed
+	Set(NICK_EXIST, strNickExist)
+	Set(NICK_INVALID, strNickInvalid)
+	Set(NICK_LENGTH_INVALID, strNickLengthInvalid)
+	Set(GENDER_ERROR, strGenderError)
+	Set(AVATAR_FAILED, strAvatarFailed)
 	// 账户相关
-	errmsg[NO_COIN] = strNoCoin
+	Set(NO_COIN, strNoCoin)
 
 	// 房间相关
-	errmsg[LIVING_OFF] = strLivingOff
+	Set(LIVING_OFF, strLivingOff)
 	// 关系相关
-	errmsg[MGR_BAN] = strMgrBan
-	errmsg[ADM_BAN] = strAdmBan
+	Set(MGR_BAN, strMgrBan)
+	Set(ADM_BAN, strAdmBan)
 	// CDN
-	errmsg[NOT_LIVING] = strNotLiving
+	Set(NOT_LIVING, strNotLiving)
 
 	// 好友相关
-	errmsg[HAD_BEEN_MATE] = strHadBeenMate
+	Set(HAD_BEEN_MATE, strHadBeenMate)
+	Set(HAD_APPLIED, strHadApplied)
 
 	// 配置反馈相关
-	errmsg[FEED_BACK_IMAGE] = strFeedBackImage
+	Set(FEED_BACK_IMAGE, strFeedBackImage)
 }
 
 func (e Errno) Errno() int {

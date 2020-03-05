@@ -19,7 +19,7 @@ type RspRaw struct {
 }
 
 func RespFail(e ce.Errno) *Rsp {
-	return &Rsp{ErrCode: e.Errno(), ErrMsg: e.String()}
+	return &Rsp{ErrCode: e.Errno(), ErrMsg: e.Error()}
 }
 
 func RespSucc(data interface{}) *Rsp {

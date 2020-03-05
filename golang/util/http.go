@@ -6,13 +6,15 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 
 	p "github.com/halivor/common/golang/packet"
 	ce "github.com/halivor/common/golang/util/errno"
 	log "github.com/halivor/goutility/logger"
 )
 
-var ul = log.NewLog("/data/logs/util.log", "[util]", log.LstdFlags, log.TRACE)
+var ul log.Logger = log.NewLog("/data/logs/common.util.log", "",
+	log.LstdFlags|log.Lmicroseconds, log.TRACE)
 
 func InitLog(olog log.Logger) {
 	if olog != nil {
@@ -71,6 +73,19 @@ func HttpPost(url, ctype string, body []byte) ([]byte, ce.Errno) {
 		return nil, ce.SRV_ERR
 	case resp.StatusCode != 200:
 		ul.Warn("HTTP status code", resp.StatusCode, url)
+		return nil, ce.SRV_ERR
+	default:
+		return RespParse(resp.Body)
+	}
+}
+
+func HttpPostForm(u string, val url.Values) ([]byte, ce.Errno) {
+	switch resp, e := http.PostForm(u, val); {
+	case e != nil:
+		ul.Warn("HTTP POST FAILED", e)
+		return nil, ce.SRV_ERR
+	case resp.StatusCode != 200:
+		ul.Warn("HTTP status code", resp.StatusCode, u)
 		return nil, ce.SRV_ERR
 	default:
 		return RespParse(resp.Body)
