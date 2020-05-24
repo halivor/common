@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package packet;
+
+option go_package = "github.com/halivor/common/golang/packet"; 
+
+enum message_type {
+    JSON  = 0;
+    PROTO = 1;
+    XML   = 2;
+}
+
+message request {
+    header header = 1;
+    bytes  body   = 3;
+    ext    ext    = 2;
+}
+
+message response {
+    header header = 1;
+    int32  errno  = 3;
+    bytes  body   = 4;
+    ext    ext    = 2;
+}
+
+message null {
+}
+
+message header {
+    int32        ver    = 1;
+    int32        app_id = 2;
+    message_type type   = 3;
+}
+
+message ext {
+    string trace_id = 1;
+    string span_id  = 2;
+}

@@ -14,9 +14,15 @@ import (
 	_ "github.com/halivor/goutility/bufferpool"
 )
 
+var KEY = ""
+
+func InitCrypto(key string) {
+	KEY = key
+}
+
 func GeneToken(uid int64) *p.Token {
-	key := make([]byte, 8) // TODO: 考虑使用固定key，或每个用户固定key
-	sign := make([]byte, 8)
+	key := make([]byte, 16) // TODO: 考虑使用固定key，或每个用户固定key
+	sign := make([]byte, 16)
 	io.ReadFull(rand.Reader, key)
 	io.ReadFull(rand.Reader, sign)
 
