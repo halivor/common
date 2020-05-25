@@ -10,7 +10,7 @@ import (
 
 	p "github.com/halivor/common/golang/packet"
 	ce "github.com/halivor/common/golang/util/errno"
-	log "github.com/halivor/goutility/logger"
+	log "github.com/halivor/goutil/logger"
 )
 
 var ul log.Logger = log.NewLog("/data/logs/common.util.log", "",

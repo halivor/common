@@ -11,7 +11,7 @@ import (
 	"time"
 
 	p "github.com/halivor/common/golang/packet"
-	_ "github.com/halivor/goutility/bufferpool"
+	_ "github.com/halivor/goutil/bufferpool"
 )
 
 var KEY = ""
