@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package packet;
 
-option go_package = "github.com/halivor/common/golang/packet"; 
+option go_package = ".;packet"; 
 
 enum message_type {
     JSON  = 0;
