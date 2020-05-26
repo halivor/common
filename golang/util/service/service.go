@@ -9,23 +9,25 @@ import (
 	ce "github.com/halivor/common/golang/util/errno"
 )
 
-type method func(context.Context, *cp.Request) (*cp.Response, error)
+type Method func(context.Context, *cp.Request) (*cp.Response, error)
 
 type Service interface {
-	SetUp(name string, m method)
+	SetUp(name string, m Method)
 	Call(name string, req proto.Message, rsp proto.Message) ce.Errno
 }
 
 type service struct {
 	sync.RWMutex
-	mms map[string]method
+	mms map[string]Method
 }
 
 func New() Service {
-	return &service{}
+	return &service{
+		mms: map[string]Method{},
+	}
 }
 
-func (svc *service) SetUp(name string, m method) {
+func (svc *service) SetUp(name string, m Method) {
 	svc.Lock()
 	defer svc.Unlock()
 	svc.mms[name] = m
@@ -36,7 +38,7 @@ func (svc *service) Call(name string, req proto.Message, rsp proto.Message) ce.E
 	svc.RLock()
 	m, ok := svc.mms[name]
 	svc.RUnlock()
-	if ok {
+	if !ok {
 		return ce.DATA_INVALID
 	}
 	rst, e := m(context.Background(), cp.NewRequest(req))
