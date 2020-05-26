@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	mrand "math/rand"
 	"time"
 
 	p "github.com/halivor/common/golang/packet"
@@ -31,6 +32,7 @@ func GeneToken(uid int64) *p.Token {
 		Key:  hex.EncodeToString(key),
 		Sign: hex.EncodeToString(sign),
 		Exp:  time.Now().Add(time.Hour * 24 * 30).Unix(),
+		Rand: mrand.Int63(),
 	}
 }
 

@@ -13,7 +13,7 @@ import (
 	log "github.com/halivor/goutil/logger"
 )
 
-var ul log.Logger = log.NewLog("/data/logs/common.util.log", "",
+var ul log.Logger = log.NewLog("common.util.log", "",
 	log.LstdFlags|log.Lmicroseconds, log.TRACE)
 
 func InitLog(olog log.Logger) {
