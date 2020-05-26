@@ -9,7 +9,7 @@ import (
 	ce "github.com/halivor/common/golang/util/errno"
 )
 
-type method func(context.Context, *cp.Request) (cp.Response, error)
+type method func(context.Context, *cp.Request) (*cp.Response, error)
 
 type Service interface {
 	SetUp(name string, m method)
