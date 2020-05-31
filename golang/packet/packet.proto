@@ -27,8 +27,8 @@ message null {
 }
 
 message header {
-    int32        ver    = 1;
-    int32        app_id = 2;
+    uint32       ver    = 1;
+    uint32       app_id = 2;
     message_type type   = 3;
 }
 

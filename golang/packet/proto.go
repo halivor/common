@@ -8,15 +8,15 @@ import (
 
 var (
 	ver    int32   = 0
-	appId  int32   = 0
+	appid  int32   = 0
 	header *Header = nil
 	ext            = false
 )
 
-func InitProto(ver int32, appid int32, trace bool) {
+func InitHeader(ver uint32, id uint32, trace bool) {
 	header = &Header{
 		Ver:   ver,
-		AppId: appid,
+		AppId: id,
 		Type:  MessageType_PROTO,
 	}
 	ext = trace
