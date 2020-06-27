@@ -38,6 +38,15 @@ func NewRequest(data proto.Message) *Request {
 	}
 }
 
+func NewInRequest(req *Request, data proto.Message) *Request {
+	pb, _ := proto.Marshal(data)
+	return &Request{
+		Header: req.GetHeader(),
+		Body:   pb,
+		Ext:    req.GetExt(),
+	}
+}
+
 func NewResponse(req *Request, msg proto.Message, en ce.Errno) *Response {
 	pb, _ := proto.Marshal(msg)
 	var extension Ext

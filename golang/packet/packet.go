@@ -18,6 +18,10 @@ type RspRaw struct {
 	Data    json.RawMessage `json:"data,omitempty"`
 }
 
+func Resp(e ce.Errno) *Rsp {
+	return &Rsp{ErrCode: e.Errno(), ErrMsg: e.Error()}
+}
+
 func RespFail(e ce.Errno) *Rsp {
 	return &Rsp{ErrCode: e.Errno(), ErrMsg: e.Error()}
 }
