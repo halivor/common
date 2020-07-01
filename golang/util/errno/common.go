@@ -6,7 +6,9 @@ const (
 	strBadReq                 = "攻城狮罚站去了" // 请求参数错误
 	NOT_EXIST           Errno = 2001
 	strNotExist               = "攻城狮消失了" // 数据不存在
-	UPGRADE_MANDATORY   Errno = 2002
+	EXIST               Errno = 2002
+	strExist                  = "攻城狮被抱走了" // 数据已存在
+	UPGRADE_MANDATORY   Errno = 2003
 	strUpgradeMandatory       = "攻城狮升级去了"
 
 	// TOKEN 相关
@@ -21,6 +23,7 @@ func init() {
 	Set(BAD_REQ, strBadReq)
 	Set(UPGRADE_MANDATORY, strUpgradeMandatory)
 	Set(NOT_EXIST, strNotExist)
+	Set(EXIST, strExist)
 
 	// TOKEN异常
 	Set(TOKEN_INVALID, strTokenInvalid)
