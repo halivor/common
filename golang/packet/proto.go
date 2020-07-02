@@ -13,7 +13,7 @@ var (
 	ext            = false
 )
 
-func InitHeader(ver uint32, id uint32, trace bool) {
+func InitHeader(ver int64, id int64, trace bool) {
 	header = &Header{
 		Ver:   ver,
 		AppId: id,
@@ -39,7 +39,10 @@ func NewRequest(data proto.Message) *Request {
 }
 
 func NewInRequest(req *Request, data proto.Message) *Request {
-	pb, _ := proto.Marshal(data)
+	pb := []byte("")
+	if data != nil {
+		pb, _ = proto.Marshal(data)
+	}
 	return &Request{
 		Header: req.GetHeader(),
 		Body:   pb,
@@ -48,7 +51,10 @@ func NewInRequest(req *Request, data proto.Message) *Request {
 }
 
 func NewResponse(req *Request, msg proto.Message, en ce.Errno) *Response {
-	pb, _ := proto.Marshal(msg)
+	pb := []byte("")
+	if msg != nil {
+		pb, _ = proto.Marshal(msg)
+	}
 	var extension Ext
 	if ext {
 		extension = *req.Ext
@@ -57,6 +63,6 @@ func NewResponse(req *Request, msg proto.Message, en ce.Errno) *Response {
 		Header: req.GetHeader(),
 		Body:   pb,
 		Ext:    &extension,
-		Errno:  int32(en),
+		Errno:  int64(en),
 	}
 }

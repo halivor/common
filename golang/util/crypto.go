@@ -27,11 +27,13 @@ func GeneToken(uid int64) *p.Token {
 	io.ReadFull(rand.Reader, key)
 	io.ReadFull(rand.Reader, sign)
 
+	exp := time.Hour*24*30 + time.Duration(mrand.Int63n(3600))*time.Second
+
 	return &p.Token{
 		Uid:  uid,
 		Key:  hex.EncodeToString(key),
 		Sign: hex.EncodeToString(sign),
-		Exp:  time.Now().Add(time.Hour * 24 * 30).Unix(),
+		Exp:  time.Now().Add(exp).Unix(),
 		Rand: mrand.Int63(),
 	}
 }
